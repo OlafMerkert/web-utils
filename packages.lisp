@@ -8,4 +8,5 @@
    :define-html-part
    :start-server
    :error-code
-   :setup-static-content))
+   :setup-static-content
+   :uri))

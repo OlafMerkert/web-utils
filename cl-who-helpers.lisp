@@ -51,3 +51,8 @@
 (defmacro define-html-part (name params &body body)
   `(defun ,name ,params
           (html-part ,@body)))
+
+(defun uri (base &rest parameters)
+  "Format an url with BASE and a number of PARAMETERS, given like
+keyword parameters to a function.  Possibly add global state parameters."
+  (format nil "~A~@[?~{~(~A~)=~A~^&~}~]" base parameters))

@@ -1,9 +1,12 @@
 (in-package :web-utils)
 
 (setf *prologue*
-      "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"
- \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">")
+      ;; "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <!DOCTYPE html
+      ;; PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"
+      ;; \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+      cl-who::*html-empty-tag-aware-p* nil)
+;; TODO maybe add doctype back ? at least locally, when generating html?
 
 (defparameter html-output-stream nil)
 

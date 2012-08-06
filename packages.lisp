@@ -3,10 +3,11 @@
         :cl-who
         :hunchentoot)
   (:export
-   :html-doc
-   :html-part
-   :define-html-part
    :start-server
    :error-code
    :setup-static-content
-   :uri))
+   :uri
+   :xml/node
+   :xml/document
+   :html/node
+   :html/document))

@@ -37,7 +37,7 @@
             :lang ,lang
             (:head
              (:meta :http-equiv "Content-Type" :content "text/html;charset=utf-8")
-             ,(when title `(:title ,title))
+             ,(when title `(:title (esc ,title)))
              ,@(when style
                      (mapcar #`(:link :rel "stylesheet" :type "text/css" :href ,a1)
                              (get-all :style parameters))))
@@ -64,4 +64,5 @@
 (defun uri (base &rest parameters)
   "Format an url with BASE and a number of PARAMETERS, given like
 keyword parameters to a function.  Possibly add global state parameters."
+  ;; TODO encode parameters values
   (format nil "~A~@[?~{~(~A~)=~A~^&~}~]" base parameters))

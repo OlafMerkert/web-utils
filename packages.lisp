@@ -10,4 +10,5 @@
    :xml/node
    :xml/document
    :html/node
-   :html/document))
+   :html/document
+   :xml-output-stream))

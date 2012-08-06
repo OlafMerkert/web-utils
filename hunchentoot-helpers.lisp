@@ -8,7 +8,9 @@
   (setf (hunchentoot:return-code*) code)
   (hunchentoot:abort-request-handler))
 
-(defun setup-static-content (uri path)
+(defun setup-static-content (uri path &rest more-uri-paths)
   "Serve the file at PATH under the given URI, with hunchentoot."
   (push (hunchentoot:create-static-file-dispatcher-and-handler uri path)
-        hunchentoot:*dispatch-table*))
+        hunchentoot:*dispatch-table*)
+  (when more-uri-paths
+    (apply #'setup-static-content more-uri-paths)))

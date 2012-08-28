@@ -11,4 +11,5 @@
    :xml/document
    :html/node
    :html/document
-   :xml-output-stream))
+   :xml-output-stream
+   :uri+))

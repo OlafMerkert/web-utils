@@ -61,8 +61,26 @@
 ;; TODO how to make indentation consistent for xml/node stuff
 ;; TODO what about a different approach to this??
 
+(defun mapcar/parity (even-fun odd-fun &rest lists)
+  "Apply the functions EVEN-FUN and ODD-FUN on the lists as with mapcar, alternating between the functions."
+  (let ((i -1))
+    (apply #'mapcar
+           (lambda (&rest args)
+             (if (evenp (incf i))
+                 (apply even-fun args)
+                 (apply odd-fun args)))
+           lists)))
+
 (defun uri (base &rest parameters)
   "Format an url with BASE and a number of PARAMETERS, given like
 keyword parameters to a function.  Possibly add global state parameters."
-  ;; TODO encode parameters values
-  (format nil "~A~@[?~{~(~A~)=~A~^&~}~]" base parameters))
+  (format nil "~A~@[?~{~(~A~)=~A~^&~}~]" base
+          parameters))
+
+(defun uri+ (base &rest parameters)
+  "Format an url with BASE and a number of PARAMETERS, given like
+keyword parameters to a function.  Possibly add global state parameters. encode parameters values"
+  (format nil "~A~@[?~{~(~A~)=~A~^&~}~]" base
+          (mapcar/parity #'identity
+                         (compose #'url-encode #'mkstr)
+                         parameters)))

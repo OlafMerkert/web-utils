@@ -79,8 +79,9 @@ keyword parameters to a function.  Possibly add global state parameters."
 
 (defun uri+ (base &rest parameters)
   "Format an url with BASE and a number of PARAMETERS, given like
-keyword parameters to a function.  Possibly add global state parameters. encode parameters values"
-  (format nil "~A~@[?~{~(~A~)=~A~^&~}~]" base
-          (mapcar/parity #'identity
-                         (compose #'url-encode #'mkstr)
-                         parameters)))
+keyword parameters to a function. Possibly add global state
+parameters. Additionally encode parameters values"
+  (apply #'uri base
+         (mapcar/parity #'identity
+                        (compose #'url-encode #'mkstr)
+                        parameters)))

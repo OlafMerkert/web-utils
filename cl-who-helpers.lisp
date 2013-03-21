@@ -10,7 +10,7 @@
         \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"))
 
 (setf *prologue* xml-prologue
-      cl-who::*html-empty-tag-aware-p* nil)
+      cl-who::*html-empty-tag-aware-p* t)
 
 (defparameter xml-output-stream nil)
 
@@ -29,9 +29,12 @@
                                  title
                                  (lang "en")
                                  style
-                                 script)
+                                 script
+                                 stream)
                          &body body)
-  `(with-html-output-to-string (xml-output-stream nil :prologue xhtml-prologue :indent 0)
+  `(,(if stream
+         'with-html-output
+         'with-html-output-to-string) (xml-output-stream ,stream :prologue xhtml-prologue :indent 0)
      (:html :xmlns "http://www.w3.org/1999/xhtml"
             :xml\:lang ,lang
             :lang ,lang
@@ -43,7 +46,7 @@
                              (get-all :style parameters))))
             ,@(when script
                     (mapcar #`(:script :type "text/javascript" :src ,a1)
-                            (get-all :style parameters)))
+                            (get-all :script parameters)))
             (:body ,@body))))
 
 (defmacro html/node (&body body)

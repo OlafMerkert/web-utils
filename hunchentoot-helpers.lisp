@@ -3,11 +3,12 @@
 (defparameter *current-web-server* nil)
 
 (defun start-server (&optional production)
-  (unless *current-web-server*
-   (hunchentoot:start
-    (setf *current-web-server*
-          (make-instance 'hunchentoot:easy-acceptor
-                         :port (if production 80 8080))))))
+  (if *current-web-server*
+      *current-web-server*
+      (hunchentoot:start
+       (setf *current-web-server*
+             (make-instance 'hunchentoot:easy-acceptor
+                            :port (if production 80 8080))))))
 
 (defun stop-server ()
   (hunchentoot:stop *current-web-server*))

@@ -14,4 +14,6 @@
    #:xml-output-stream
    #:uri+
    #:uri->html-document
-   #:uri->file))
+   #:uri->file
+   #:text-content
+   #:merge-urls))

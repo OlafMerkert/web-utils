@@ -8,5 +8,7 @@
   :serial t
   :components ((:file "packages")
                (:file "cl-who-helpers")
-               (:file "hunchentoot-helpers")))
+               (:file "hunchentoot-helpers")
+               (:file "url-helpers")
+               (:file "scrape-utils")))
 

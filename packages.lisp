@@ -16,4 +16,7 @@
    #:uri->html-document
    #:uri->file
    #:text-content
-   #:merge-urls))
+   #:merge-urls
+   #:web-library-path
+   #:stop-server
+   #:register-web-application))

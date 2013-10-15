@@ -34,7 +34,7 @@
                          &body body)
   `(,(if stream
          'with-html-output
-         'with-html-output-to-string) (xml-output-stream ,stream :prologue xhtml-prologue :indent 0)
+         'with-html-output-to-string) (xml-output-stream ,stream :prologue xhtml-prologue)
      (:html :xmlns "http://www.w3.org/1999/xhtml"
             :xml\:lang ,lang
             :lang ,lang
@@ -50,15 +50,15 @@
             (:body ,@body))))
 
 (defmacro html/node (&body body)
-  `(with-html-output (xml-output-stream nil :indent 4)
+  `(with-html-output (xml-output-stream nil)
      ,@body))
 
 (defmacro xml/document ((&key) &body body)
-  `(with-html-output-to-string (xml-output-stream nil :prologue xml-prologue :indent 0)
+  `(with-html-output-to-string (xml-output-stream nil :prologue xml-prologue)
      ,@body))
 
 (defmacro xml/node (&body body)
-  `(with-html-output (xml-output-stream nil :indent 4)
+  `(with-html-output (xml-output-stream nil)
      ,@body))
 
 ;; TODO how to make indentation consistent for xml/node stuff

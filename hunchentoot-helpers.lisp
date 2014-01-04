@@ -2,19 +2,23 @@
 
 (defparameter *current-web-server* nil)
 
+(defun ht-debug-settings (&optional production)
+  (setf hunchentoot:*catch-errors-p* t
+        hunchentoot:*show-lisp-errors-p* (not production)
+        hunchentoot:*show-lisp-backtraces-p* (not production)))
+
 (defun start-server (&optional production)
-  (if *current-web-server*
-      *current-web-server*
-      (progn
-        (unless production
-          ;; provide the list of available applications
-          (push (hunchentoot:create-regex-dispatcher
-                 "^/$" 'show-available-applications)
-                hunchentoot:*dispatch-table*)
-          (push (hunchentoot:create-regex-dispatcher
-                 "^$" 'show-available-applications)
-                hunchentoot:*dispatch-table*))
-        (hunchentoot:start
+  (hunchentoot:start
+   (or *current-web-server*
+       (progn
+         (unless production
+           ;; provide the list of available applications
+           (push (hunchentoot:create-regex-dispatcher
+                  "^/$" 'show-available-applications)
+                 hunchentoot:*dispatch-table*)
+           (push (hunchentoot:create-regex-dispatcher
+                  "^$" 'show-available-applications)
+                 hunchentoot:*dispatch-table*))
          (setf *current-web-server*
                (make-instance 'hunchentoot:easy-acceptor
                               :port (if production 80 8080)))))))

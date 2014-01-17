@@ -10,5 +10,6 @@
                (:file "cl-who-helpers")
                (:file "hunchentoot-helpers")
                (:file "url-helpers")
-               (:file "scrape-utils")))
+               (:file "scrape-utils")
+               (:file "download-web-libraries")))
 

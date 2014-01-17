@@ -19,4 +19,5 @@
    #:merge-urls
    #:web-library-path
    #:stop-server
-   #:register-web-application))
+   #:register-web-application
+   #:serve-jquery))

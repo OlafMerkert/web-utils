@@ -20,4 +20,6 @@
    #:web-library-path
    #:stop-server
    #:register-web-application
-   #:serve-jquery))
+   #:serve-jquery
+   #:breadcrumb->url
+   #:register-breadcrumb-dispatcher))

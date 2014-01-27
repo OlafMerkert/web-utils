@@ -22,4 +22,5 @@
    #:register-web-application
    #:serve-jquery
    #:breadcrumb->url
-   #:register-breadcrumb-dispatcher))
+   #:register-breadcrumb-dispatcher
+   #:load-web-library))

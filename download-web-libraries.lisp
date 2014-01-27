@@ -1,24 +1,44 @@
 (in-package :web-utils)
 
-(defpar web-library-directory #P "/var/tmp/web-libraries/")
+(defpar web-library-directory #P "/var/cache/web-libraries/")
 
-(defun serve-jquery (&key (version "1.10.2"))
-  "download the latest version of jquery an serve it locally"
-  (let ((files (mapcar (clambda (format nil x! version))
-                       '("jquery-~A.min.js"
-                         ;; "jquery-~A.js"
-                         "jquery-~A.min.map"))))
-    (ensure-directories-exist web-library-directory)
-    (mapcar (lambda (file)
-             (let ((remote-url (conc "http://code.jquery.com/" file))
-                   (local-file (merge-pathnames file web-library-directory))
-                   (local-url (conc "/scripts/" file)))
-               (unless (uiop:probe-file* local-file)
-                 ;; need to download this file
-                 (uri->file remote-url local-file))
-               (setup-static-content local-url local-file)
-               local-url))
-            files)))
+(defvar loaded-web-libraries (make-hash-table))
+
+(defmacro define-web-library (name &rest properties)
+  (alist-bind (params
+               files
+               remote-prefix
+               local-prefix) properties
+    `(defmethod load-web-library ((name (eql ',name)) &key ,@params)
+       (unless (gethash ',name loaded-web-libraries)
+         (download-and-serve
+          (mapcar (clambda (format nil x! ,@(mapcar #'unbox1 params))) (list ,@files))
+          ,(car remote-prefix)
+          ,(car local-prefix))
+         (setf (gethash ',name loaded-web-libraries) t)))))
+
+(defgeneric load-web-library (name &key))
+
+(define-web-library :jquery
+    (:params (version "1.10.2"))
+  (:files "jquery-~A.min.js"
+          "jquery-~A.js"
+          "jquery-~A.min.map")
+  (:remote-prefix "http://code.jquery.com/")
+  (:local-prefix "/scripts/"))
+
+(defun download-and-serve (files remote-prefix local-prefix)
+  (ensure-directories-exist web-library-directory)
+  (mapcar (lambda (file)
+            (let ((remote-url (conc remote-prefix file))
+                  (local-file (merge-pathnames file web-library-directory))
+                  (local-url (conc local-prefix file)))
+              (unless (uiop:probe-file* local-file)
+                ;; need to download this file
+                (uri->file remote-url local-file))
+              (setup-static-content local-url local-file)
+              local-url))
+          files))
 
 ;;; first, we want the latest bootstrap
 #|(defun get-bootstrap-archive-uri ()

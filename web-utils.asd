@@ -4,7 +4,8 @@
                hunchentoot
                drakma
                cxml
-               closure-html)
+               closure-html
+               parenscript)
   :serial t
   :components ((:file "packages")
                (:file "cl-who-helpers")
@@ -12,5 +13,6 @@
                (:file "url-helpers")
                (:file "breadcrumbs")
                (:file "scrape-utils")
+               (:file "parenscript-helpers")
                (:file "download-web-libraries")))
 

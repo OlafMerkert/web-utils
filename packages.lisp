@@ -1,7 +1,9 @@
 (defpackage :web-utils
+  (:shadowing-import-from :ol-utils #:this #:in)
   (:use :cl :ol
         :cl-who
-        :hunchentoot)
+        :hunchentoot
+        :parenscript)
   (:export
    #:start-server
    #:error-code
@@ -23,4 +25,9 @@
    #:serve-jquery
    #:breadcrumb->url
    #:register-breadcrumb-dispatcher
-   #:load-web-library))
+   #:load-web-library
+   #:mkstr/lc
+   #:@@
+   #:$!
+   #:form-value
+   #:form-bind))

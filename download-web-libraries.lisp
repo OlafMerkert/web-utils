@@ -1,6 +1,7 @@
 (in-package :web-utils)
 
-(defpar web-library-directory #P "/var/cache/web-libraries/")
+(defpar web-library-directory (merge-pathnames ".cache/web-libraries/"
+                                               (user-homedir-pathname)))
 
 (defvar loaded-web-libraries (make-hash-table))
 

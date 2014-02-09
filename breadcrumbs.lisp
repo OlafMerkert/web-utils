@@ -45,19 +45,20 @@
      (push2 ,dispatcher
             hunchentoot:*dispatch-table* #1#)))
 
-(defmethod register-breadcrumb-dispatcher (breadcrumb (serve-function symbol) &key (dir-p t) replace)
-  (let ((url (breadcrumb->url breadcrumb)))
-    (register-breadcrumb-dispatcher%
-     breadcrumb
-     (hunchentoot:create-regex-dispatcher
-      (mkstr "^" url "$") serve-function)
-     :replace replace)
-    (when dir-p
+(bind-multi ((symbol symbol function))
+  (defmethod register-breadcrumb-dispatcher (breadcrumb (serve-function symbol) &key (dir-p t) replace)
+    (let ((url (breadcrumb->url breadcrumb)))
       (register-breadcrumb-dispatcher%
        breadcrumb
        (hunchentoot:create-regex-dispatcher
-        (mkstr "^" url "/$") serve-function)
-       :replace t))))
+        (mkstr "^" url "$") serve-function)
+       :replace replace)
+      (when dir-p
+        (register-breadcrumb-dispatcher%
+         breadcrumb
+         (hunchentoot:create-regex-dispatcher
+          (mkstr "^" url "/$") serve-function)
+         :replace t)))))
 
 (defun filename (pathname)
   (aif (pathname-type pathname)

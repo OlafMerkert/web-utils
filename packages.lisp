@@ -30,4 +30,7 @@
    #:@@
    #:$!
    #:form-value
-   #:form-bind))
+   #:form-bind
+   #:breadcrumb->path
+   #:filename
+   #:breadcrumb))

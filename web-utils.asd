@@ -1,5 +1,6 @@
 (defsystem :web-utils
   :depends-on (ol-utils
+               uiop
                cl-who
                hunchentoot
                drakma

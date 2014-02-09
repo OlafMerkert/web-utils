@@ -5,8 +5,8 @@
 (defpar *user-homedirs* #P"/home/")
 (defpar *document-root* #P"/var/www/")
 
-(defun breadcrumb->url (list)
-  (format nil "~{/~(~A~)~}" list))
+(defun breadcrumb->url (list &optional trailing-slash)
+  (format nil "~{/~(~A~)~}~:[~;/~]" list trailing-slash))
 
 (defun mkstr/lc (&rest args)
   (string-downcase (apply #'mkstr args)))
@@ -57,7 +57,7 @@
        breadcrumb
        (hunchentoot:create-regex-dispatcher
         (mkstr "^" url "/$") serve-function)
-       :replace replace))))
+       :replace t))))
 
 (defun filename (pathname)
   (aif (pathname-type pathname)

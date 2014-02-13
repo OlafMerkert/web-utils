@@ -5,7 +5,8 @@
                drakma
                cxml
                closure-html
-               parenscript)
+               parenscript
+               cl-json)
   :serial t
   :components ((:file "packages")
                (:file "cl-who-helpers")
@@ -14,5 +15,6 @@
                (:file "breadcrumbs")
                (:file "scrape-utils")
                (:file "parenscript-helpers")
+               (:file "js-utils")
                (:file "download-web-libraries")))
 

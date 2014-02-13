@@ -34,4 +34,5 @@
    #:cc
    #:cch
    #:hide+remove
-   #:bind-keys))
+   #:bind-keys
+   #:user-message))

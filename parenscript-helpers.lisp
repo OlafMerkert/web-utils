@@ -24,6 +24,9 @@
 (defmacro+ps cch (symbol-or-string)
   (concatenate 'string "#" (cl-json:lisp-to-camel-case (mkstr symbol-or-string))))
 
+(defpsmacro user-message (&rest messages)
+  `(user-message% (concatenate 'string ,@messages)))
+
 (define-easy-handler (js-utils :uri "/scripts/utils.js") ()
   (setf (hunchentoot:content-type*) "text/javascript")
   (ps
@@ -31,7 +34,12 @@
       (= 0 (length string)))
 
     (defun hide+remove (node)
-      (@@ ($ node) (hide "normal" (lambda () (@@ ($ this) (remove))))))))
+      (@@ ($ node) (hide "normal" (lambda () (@@ ($ this) (remove))))))
+
+    (defun user-message% (message)
+      (@@ console (log message))
+      (@@ $ (sticky message))
+      nil)))
 
 ;; setting up webapp keybindings
 (defgeneric js-key-code (keybinding))

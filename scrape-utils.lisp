@@ -10,7 +10,7 @@
 `filename'."
   (with-open-file (output filename :direction :output :if-exists :supersede
                           :element-type 'unsigned-byte)
-    (write-sequence (drakma:http-request uri) output)))
+    (write-sequence (drakma:http-request uri :force-binary t) output)))
 
 (defun text-content (element)
   (dom:data (dom:first-child element)))

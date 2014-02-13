@@ -35,4 +35,7 @@
    #:hide+remove
    #:bind-keys
    #:user-message
-   #:bind-event))
+   #:bind-event
+   #:breadcrumb->path
+   #:filename
+   #:breadcrumb))

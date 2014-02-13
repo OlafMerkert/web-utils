@@ -1,9 +1,9 @@
 (in-package :web-utils)
 
-(defmacro/ps @@ (&rest args)
+(defmacro+ps @@ (&rest args)
     `(chain ,@args))
 
-(defmacro/ps $! (obj handler args &body body)
+(defmacro+ps $! (obj handler args &body body)
   "Install an event handler using jQuery on the solected object."
   `(@@ ($ ,obj) (,handler (lambda ,args ,@body))))
 
@@ -11,9 +11,45 @@
   (let ((capit (string-capitalize (mkstr symbol))))
     (remove #\- (if classp capit (string-downcase capit :start 0 :end 1)))))
 
-(defmacro/ps form-value (id &optional (value nil value-p))
+(defmacro+ps form-value (id &optional (value nil value-p))
   `(@@ ($ ,(mkstr "#" (lisp->camelcase id))) (val ,@(if value-p (list value)))))
 
-(defmacro/ps form-bind (bindings &body body)
+(defmacro+ps form-bind (bindings &body body)
   `(let ,(mapcar #`(,a1 (form-value ,a1)) bindings)
      ,@body))
+
+(defmacro+ps cc (symbol-or-string)
+  (cl-json:lisp-to-camel-case (mkstr symbol-or-string)))
+
+(defmacro+ps cch (symbol-or-string)
+  (concatenate 'string "#" (cl-json:lisp-to-camel-case (mkstr symbol-or-string))))
+
+(define-easy-handler (js-utils :uri "/scripts/utils.js") ()
+  (setf (hunchentoot:content-type*) "text/javascript")
+  (ps
+    (defun length=0 (string)
+      (= 0 (length string)))
+
+    (defun hide+remove (node)
+      (@@ ($ node) (hide "normal" (lambda () (@@ ($ this) (remove))))))))
+
+;; setting up webapp keybindings
+(defgeneric js-key-code (keybinding))
+
+(defmacro+ps bind-keys (node &rest bindings)
+  "Every binding ought to have the form (k ..code..)"
+  `($! ,node keydown (event)
+     (case (@ event which)
+       ,@(mapcar (lambda (b)
+                   `(,(js-key-code (first b))
+                      ,@(rest b)))
+                 bindings))))
+
+(defmethod js-key-code ((char character))
+  (+ (char-code char) (- 80 112)))
+
+(defmethod js-key-code ((string string))
+  (js-key-code (char string 0)))
+
+(defmethod js-key-code ((symbol symbol))
+  (js-key-code (char (string-downcase (symbol-name symbol)) 0)))

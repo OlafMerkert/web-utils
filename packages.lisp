@@ -30,4 +30,8 @@
    #:@@
    #:$!
    #:form-value
-   #:form-bind))
+   #:form-bind
+   #:cc
+   #:cch
+   #:hide+remove
+   #:bind-keys))

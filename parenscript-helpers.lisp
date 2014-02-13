@@ -3,7 +3,7 @@
 (defmacro+ps @@ (&rest args)
     `(chain ,@args))
 
-(defmacro+ps $! (obj handler args &body body)
+(defmacro+ps bind-event (obj handler args &body body)
   "Install an event handler using jQuery on the solected object."
   `(@@ ($ ,obj) (,handler (lambda ,args ,@body))))
 
@@ -32,7 +32,7 @@
 
 (defmacro+ps bind-keys (node &rest bindings)
   "Every binding ought to have the form (k ..code..)"
-  `($! ,node keydown (event)
+  `(bind-event ,node keydown (event)
      (case (@ event which)
        ,@(mapcar (lambda (b)
                    `(,(js-key-code (first b))

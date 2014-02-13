@@ -28,11 +28,11 @@
    #:load-web-library
    #:mkstr/lc
    #:@@
-   #:$!
    #:form-value
    #:form-bind
    #:cc
    #:cch
    #:hide+remove
    #:bind-keys
-   #:user-message))
+   #:user-message
+   #:bind-event))

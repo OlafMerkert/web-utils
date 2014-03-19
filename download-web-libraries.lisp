@@ -34,7 +34,7 @@
           "close.png")
   (:remote-prefix "http://raw2.github.com/OlafMerkert/Sticky/master/")
   (:local-prefix "/scripts/sticky/"))
-;; todo modify js to use inline image, or correct the path
+
 ;; todo automate using web libraries in sites (at least css and js parts)
 ;; todo dependencies between web libraries?
 

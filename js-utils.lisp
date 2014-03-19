@@ -20,4 +20,17 @@
           (when (equal obj item)
             (return-from member t)))
         f))
+
+    (defun get-text (c)
+      (@@ ($ c) (text)))
+
+    (defun filter (pred list)
+      (let ((result (array)))
+        (dolist (item list)
+          (if (pred item)
+              (@@ result (push item))))
+        result))
+
+    (defun remove-empty (list)
+      (filter (lambda (elt) (< 0 (length elt))) list))
     ))

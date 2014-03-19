@@ -12,4 +12,12 @@
     (defun user-message% (message)
       (@@ console (log message))
       (@@ $ (sticky message))
-      nil)))
+      nil)
+
+    (defun member (obj array)
+      (block member
+        (dolist (item array)
+          (when (equal obj item)
+            (return-from member t)))
+        f))
+    ))

@@ -7,7 +7,7 @@
         hunchentoot:*show-lisp-errors-p* (not production)
         hunchentoot:*show-lisp-backtraces-p* (not production)))
 
-(defun start-server (&optional production)
+(defun start-server (&optional production (port 8080))
   (hunchentoot:start
    (or *current-web-server*
        (progn
@@ -21,7 +21,7 @@
                  hunchentoot:*dispatch-table*))
          (setf *current-web-server*
                (make-instance 'hunchentoot:easy-acceptor
-                              :port (if production 80 8080)))))))
+                              :port (if production 80 port)))))))
 
 (defun stop-server ()
   (hunchentoot:stop *current-web-server*))

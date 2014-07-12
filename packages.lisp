@@ -38,4 +38,5 @@
    #:bind-event
    #:breadcrumb->path
    #:filename
-   #:breadcrumb))
+   #:breadcrumb
+   #:ht-debug-settings))

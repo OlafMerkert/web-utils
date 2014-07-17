@@ -7,7 +7,8 @@
                cxml
                closure-html
                parenscript
-               cl-json)
+               cl-json
+               zip)
   :serial t
   :components ((:file "packages")
                (:file "cl-who-helpers")

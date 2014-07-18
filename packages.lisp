@@ -39,4 +39,5 @@
    #:breadcrumb->path
    #:filename
    #:breadcrumb
-   #:ht-debug-settings))
+   #:ht-debug-settings
+   #:web-library-include))

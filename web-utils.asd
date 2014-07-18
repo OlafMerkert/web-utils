@@ -8,7 +8,8 @@
                closure-html
                parenscript
                cl-json
-               zip)
+               zip
+               alexandria)
   :serial t
   :components ((:file "packages")
                (:file "cl-who-helpers")

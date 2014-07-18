@@ -5,24 +5,43 @@
 
 (defvar loaded-web-libraries (make-hash-table))
 
+(defun filename->include (filename &optional (remote-prefix ""))
+  "Given a `filename', test if it is a js or css file, and produce the
+  appropriate include."
+  (cond ((alexandria:ends-with-subseq ".js" filename)
+         `(:script ,(concatenate 'string remote-prefix filename)))
+        ((alexandria:ends-with-subseq ".css" filename)
+         `(:style ,(concatenate 'string remote-prefix filename)))))
+
 (defmacro define-web-library (name &rest properties)
   (alist-bind (params
                files
                remote-prefix
                local-prefix) properties
-    `(defmethod load-web-library ((name (eql ',name)) &key ,@params)
-       (unless (gethash ',name loaded-web-libraries)
-         (download-and-serve
-          (mapcar (clambda (format nil x! ,@(mapcar #'unbox1 params))) (list ,@files))
-          ,(car remote-prefix)
-          ,(car local-prefix))
-         (setf (gethash ',name loaded-web-libraries) t)))))
+    `(progn
+       (defmethod load-web-library ((name (eql ',name)) &key ,@params)
+        (unless (gethash ',name loaded-web-libraries)
+          (download-and-serve
+           (mapcar (clambda (format nil x! ,@(mapcar #'unbox1 params))) (list ,@files))
+           ,(car remote-prefix)
+           ,(car local-prefix))
+          (setf (gethash ',name loaded-web-libraries) t)))
+       (defmethod web-library-include ((name (eql ',name)) &key ,@params)
+           (mapcan (clambda (filename->include
+                        (format nil x! ,@(mapcar #'unbox1 params))
+                        ,(car local-prefix)))
+                   (list ,@files))))))
 
 (defgeneric load-web-library (name &key))
 
+(defgeneric web-library-include (name &key))
+
+(defmethod web-library-include ((list list) &key)
+  (mapcan 'web-library-include list))
+
 (define-web-library :jquery
-    (:params (version "1.10.2"))
-  (:files "jquery-~A.min.js"
+    (:params (version "1.11.1"))
+  (:files ;; "jquery-~A.min.js"
           "jquery-~A.js"
           "jquery-~A.min.map")
   (:remote-prefix "http://code.jquery.com/")
@@ -81,8 +100,16 @@ the `url' terminates in a slash, return an empty string."
     (subseq string pos)))
 
 (defmethod load-web-library ((name (eql :bootstrap)) &key (version "3.2.0"))
-  (let ((archive-url (format nil "https://github.com/twbs/bootstrap/releases/download/v~A/bootstrap-~A-dist.zip" version version)))
-    (download-and-serve/archive archive-url "/bootstrap/")))
+  (unless (gethash :bootstrap loaded-web-libraries)
+   (let ((archive-url (format nil "https://github.com/twbs/bootstrap/releases/download/v~A/bootstrap-~A-dist.zip" version version)))
+     (download-and-serve/archive archive-url "/bootstrap/")
+     (setf (gethash :bootstrap loaded-web-libraries) t))))
+
+(defmethod web-library-include ((name (eql :bootstrap)) &key (version "3.2.0"))
+  (declare (ignore version))
+  (list :style "/bootstrap/css/bootstrap.css"
+        :style "/bootstrap/css/bootstrap-theme.css"
+        :script "/bootstrap/js/bootstrap.js"))
 
 (defun trailing-slash-p (string)
   (and (< 0 (length string))

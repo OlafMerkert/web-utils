@@ -34,7 +34,12 @@
 
 (defgeneric load-web-library (name &key))
 
+;; automate using web libraries in sites (at least css and js parts)
 (defgeneric web-library-include (name &key))
+
+;; make sure we also load the required web-library
+(defmethod web-library-include :before ((name symbol) &key)
+  (load-web-library name))
 
 (defmethod web-library-include ((list list) &key)
   (mapcan 'web-library-include list))
@@ -54,7 +59,6 @@
   (:remote-prefix "http://raw2.github.com/OlafMerkert/Sticky/master/")
   (:local-prefix "/scripts/sticky/"))
 
-;; todo automate using web libraries in sites (at least css and js parts)
 ;; todo dependencies between web libraries?
 
 (defun download-and-serve (files remote-prefix local-prefix)

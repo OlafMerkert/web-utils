@@ -30,8 +30,9 @@
                                  (lang "en")
                                  style
                                  script
+                                 library
                                  stream)
-                         &body body)
+                          &body body)
   `(,(if stream
          'with-html-output
          'with-html-output-to-string) (xml-output-stream ,stream :prologue xhtml-prologue)
@@ -41,12 +42,18 @@
             (:head
              (:meta :http-equiv "Content-Type" :content "text/html;charset=utf-8")
              ,(when title `(:title (esc ,title)))
-             ,@(when style
+             ,@(when (or style library)
                      (mapcar #`(:link :rel "stylesheet" :type "text/css" :href ,a1)
-                             (get-all :style parameters))))
-            ,@(when script
+                             (concatenate 'list
+                                          (get-all :style
+                                                   (web-library-include (get-all :library parameters)))
+                                          (get-all :style parameters)))))
+            ,@(when (or script library)
                     (mapcar #`(:script :type "text/javascript" :src ,a1)
-                            (get-all :script parameters)))
+                            (concatenate 'list
+                                         (get-all :script
+                                                  (web-library-include (get-all :library parameters)))
+                                         (get-all :script parameters))))
             (:body ,@body))))
 
 (defmacro html/node (&body body)

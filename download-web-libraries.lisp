@@ -33,9 +33,11 @@
                    (list ,@files))))))
 
 (defgeneric load-web-library (name &key))
+(defmethod load-web-library ((name (eql nil)) &key))
 
 ;; automate using web libraries in sites (at least css and js parts)
 (defgeneric web-library-include (name &key))
+(defmethod web-library-include ((name (eql nil)) &key))
 
 ;; make sure we also load the required web-library
 (defmethod web-library-include :before ((name symbol) &key)
@@ -139,3 +141,5 @@ the `url' terminates in a slash, return an empty string."
                     (setup-static-content local-url local-file)
                     local-url))))
             local-files)))
+
+;; todo jquery ui

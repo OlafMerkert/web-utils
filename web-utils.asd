@@ -19,5 +19,6 @@
                (:file "breadcrumbs")
                (:file "scrape-utils")
                (:file "parenscript-helpers")
-               (:file "js-utils")))
+               (:file "js-utils")
+               (:file "bootstrap-helpers")))
 

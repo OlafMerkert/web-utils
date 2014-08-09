@@ -6,7 +6,8 @@
    #:elink
    #:link
    #:bs-body
-   #:navbar+))
+   #:navbar+
+   #:named-section*))
 
 (in-package :bootstrap-helpers)
 
@@ -42,8 +43,13 @@
 (defmacro navbar (title &rest navbar-links)
   `(navbar+ ,title ,navbar-links))
 
-
 (defmacro bs-body (&body body)
   `(htm (:div :class "container"
               (:div :class "bs-body"
                     ,@body))))
+
+(defmacro named-section* (title &body body)
+  `(htm (:section (:a :name ,title)
+                 (:h2 (esc ,title))
+                 ,@body)))
+

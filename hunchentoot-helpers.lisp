@@ -39,7 +39,7 @@
 
 (defparameter web-library-path #P"/var/tmp/web-libraries/")
 
-(defparameter available-applications
+(defvar available-applications
   '(("Documentation" "/hunchentoot-doc.html")))
 
 (defun show-available-applications ()

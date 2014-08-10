@@ -6,8 +6,7 @@
 (defparameter xhtml-prologue
   (concatenate
    'string xml-prologue
-   "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"
-        \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"))
+   "<!DOCTYPE html>"))
 
 (setf *prologue* xml-prologue
       cl-who::*html-empty-tag-aware-p* t)
@@ -36,25 +35,25 @@
   `(,(if stream
          'with-html-output
          'with-html-output-to-string) (xml-output-stream ,stream :prologue xhtml-prologue)
-     (:html :xmlns "http://www.w3.org/1999/xhtml"
-            :xml\:lang ,lang
-            :lang ,lang
-            (:head
-             (:meta :http-equiv "Content-Type" :content "text/html;charset=utf-8")
-             ,(when title `(:title (esc ,title)))
-             ,@(when (or style library)
-                     (mapcar #`(:link :rel "stylesheet" :type "text/css" :href ,a1)
-                             (concatenate 'list
-                                          (get-all :style
-                                                   (web-library-include (get-all :library parameters)))
-                                          (get-all :style parameters)))))
-            ,@(when (or script library)
-                    (mapcar #`(:script :type "text/javascript" :src ,a1)
-                            (concatenate 'list
-                                         (get-all :script
-                                                  (web-library-include (get-all :library parameters)))
-                                         (get-all :script parameters))))
-            (:body ,@body))))
+     (:html :lang ,lang
+        (:head
+           (:meta :http-equiv "Content-Type" :content "text/html;charset=utf-8")
+           ,(when title `(:title (esc ,title)))
+           ;; meta info
+           (:meta :name "viewport" :content "width=device-width, initial-scale=1")
+           ,@(when (or style library)
+                   (mapcar #`(:link :rel "stylesheet" :type "text/css" :href ,a1)
+                           (concatenate 'list
+                                        (get-all :style
+                                                 (web-library-include (get-all :library parameters)))
+                                        (get-all :style parameters)))))
+        ,@(when (or script library)
+                (mapcar #`(:script :type "text/javascript" :src ,a1)
+                        (concatenate 'list
+                                     (get-all :script
+                                              (web-library-include (get-all :library parameters)))
+                                     (get-all :script parameters))))
+        (:body ,@body))))
 
 (defmacro html/node (&body body)
   `(with-html-output (xml-output-stream nil)

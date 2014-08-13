@@ -34,3 +34,14 @@
     (defun remove-empty (list)
       (filter (lambda (elt) (< 0 (length elt))) list))
     ))
+
+;;; helper functions for bootstrap
+(define-easy-handler (js-bootstrap-utils :uri "/scripts/utils-bootstrap.js") ()
+  (setf (hunchentoot:content-type*) "text/javascript")
+  (ps
+    (bind-event document ready ()
+      (let ((navbar-items ($ ".navbar .navbar-nav li")))
+        (bind-event navbar-items click ()
+          ;; remove the active mark
+          (@@ navbar-items (remove-class "active"))
+          (@@ ($ this) (add-class "active")))))))

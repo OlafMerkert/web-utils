@@ -7,9 +7,19 @@
    #:link
    #:bs-body
    #:navbar+
-   #:named-section*))
+   #:named-section*
+   #:html/document+bs))
 
 (in-package :bootstrap-helpers)
+
+(defmacro html/document+bs (parameters &body body)
+  `(html/document (:style "/~olaf/style.css"
+                     :library :jquery
+                     :library :bootstrap
+                     :script "/scripts/utils-bootstrap.js"
+                     ,@parameters)
+     ,@body))
+
 
 (defmacro elink (target label)
   `(htm (:a :target "_blank" :href ,target ,label)))
@@ -26,7 +36,7 @@
     ;; todo handle case of no nav entries specially
     (let ((navbar-links (group navbar-links 2)))
       `(htm
-        (:div :class "navbar navbar-inverse navbar-fixed-top" :role "navigation"
+        (:div :class "navbar navbar-default navbar-fixed-top" :role "navigation"
               (:div :class "container"
                     (:div :class "navbar-header"
                           (:button :type "button" :class "navbar-toggle collapsed" :data-toggle "collapse" :data-target ".navbar-collapse"
@@ -36,7 +46,7 @@
                     (:div :class "navbar-collapse collapse"
                           ,(when navbar-links
                                  `(:ul :class "nav navbar-nav"
-                                       ,(naventry (first navbar-links) t)
+                                       ,(naventry (first navbar-links) nil)
                                        ,@(mapcar #'naventry (rest navbar-links))))
                           ,@body)))))))
 

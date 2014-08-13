@@ -1,0 +1,27 @@
+# -*- ispell-dictionary: "en_GB" -*-
+* About
+different helper function and utilities that are useful for many sorts of websites or web applications, facilitating the use of
++ [[http://weitz.de/hunchentoot/][hunchentoot]]
++ [[http://weitz.de/cl-who/][cl-who]]
++ [[http://common-lisp.net/project/parenscript/][parenscript]]
++ [[http://getbootstrap.com/][bootstrap]]
+* Tasks
+** DONE replace navbar-inverse
+   SCHEDULED: <2014-08-11 Mo>
+   [2014-08-11 Mo 08:38]
+   [[file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:div%20:class%20"navbar%20navbar-fixed-top"%20:role%20"navigation"][file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:div :class "navbar navbar-fixed-top" :role "navigation"]]
+** DONE don't set first navbar item active
+   SCHEDULED: <2014-08-12 Di>
+   [2014-08-12 Di 07:54]
+   [[file:~/Projekte/web-utils/bootstrap-helpers.lisp::`(:li%20,@(if%20active%20'(:class%20"active"))][file:~/Projekte/web-utils/bootstrap-helpers.lisp::`(:li ,@(if active '(:class "active"))]]
+*** DONE determine how to set the active item of the navbar
+** TODO provide bootstrap styling for the web applications overview
+   SCHEDULED: <2014-08-13 Mi>
+   [2014-08-12 Di 07:59]
+   [[file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun%20show-available-applications%20()][file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun show-available-applications ()]]
+*** TODO perhaps remove the documentation link?
+or just list it in a different way?
+** TODO we actually need to handle all # links on the page
+   SCHEDULED: <2014-08-14 Do>
+   [2014-08-13 Mi 11:34]
+   [[file:~/Projekte/web-utils/js-utils.lisp::%3B%3B%20remove%20the%20active%20mark][file:~/Projekte/web-utils/js-utils.lisp::;; remove the active mark]]

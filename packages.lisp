@@ -41,4 +41,5 @@
    #:breadcrumb
    #:ht-debug-settings
    #:web-library-include
-   #:@))
+   #:@
+   #:available-applications))

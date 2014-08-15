@@ -15,7 +15,7 @@ different helper function and utilities that are useful for many sorts of websit
    [2014-08-12 Di 07:54]
    [[file:~/Projekte/web-utils/bootstrap-helpers.lisp::`(:li%20,@(if%20active%20'(:class%20"active"))][file:~/Projekte/web-utils/bootstrap-helpers.lisp::`(:li ,@(if active '(:class "active"))]]
 *** DONE determine how to set the active item of the navbar
-** TODO provide bootstrap styling for the web applications overview
+** DONE provide bootstrap styling for the web applications overview
    SCHEDULED: <2014-08-13 Mi>
    [2014-08-12 Di 07:59]
    [[file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun%20show-available-applications%20()][file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun show-available-applications ()]]
@@ -25,3 +25,6 @@ or just list it in a different way?
    SCHEDULED: <2014-08-14 Do>
    [2014-08-13 Mi 11:34]
    [[file:~/Projekte/web-utils/js-utils.lisp::%3B%3B%20remove%20the%20active%20mark][file:~/Projekte/web-utils/js-utils.lisp::;; remove the active mark]]
+** TODO move styling into a CSS file
+   [2014-08-13 Mi 17:47]
+   [[file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:ul%20:class%20"list-unstyled"%20:style%20"margin-left:%204em"][file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:ul :class "list-unstyled" :style "margin-left: 4em"]]

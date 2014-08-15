@@ -32,7 +32,7 @@
   (flet ((naventry (link &optional active)
            (when link
              `(:li ,@(if active '(:class "active"))
-                   (:a :href ,(first link) ,(second link))))))
+                   (:a :href ,(first link) (esc ,(second link)))))))
     ;; todo handle case of no nav entries specially
     (let ((navbar-links (group navbar-links 2)))
       `(htm
@@ -63,3 +63,22 @@
                  (:h2 (esc ,title))
                  ,@body)))
 
+;;; if desired, replace the list of available applications with a
+;;; boostrap styled version
+(defun web-utils::show-available-applications ()
+  (let ((server-name (format nil "~:(~A~)'s hunchentoot instance"
+                             (sb-unix:uid-username (sb-unix:unix-getuid)))))
+    (html/document+bs (:title server-name)
+      (navbar server-name
+              "/hunchentoot-doc.html" "Documentation")
+      (bs-body
+        (:h1 (esc server-name))
+        (:ul :class "list-unstyled" :style "margin-left: 4em"
+           (dolist (app available-applications)
+             (unless (string-equal (first app) "Documentation")
+               (htm (:li :style "margin-bottom: 4pt"
+                       (:a :href (second app)
+                          :class "btn btn-default"
+                          (:span :class "glyphicon glyphicon-globe"
+                             :style (css-lite:inline-css :margin-right "5pt"))
+                          (esc (first app))))))))))))

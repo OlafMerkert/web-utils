@@ -21,7 +21,7 @@ different helper function and utilities that are useful for many sorts of websit
    [[file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun%20show-available-applications%20()][file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun show-available-applications ()]]
 *** TODO perhaps remove the documentation link?
 or just list it in a different way?
-** TODO we actually need to handle all # links on the page
+** DONE we actually need to handle all # links on the page
    SCHEDULED: <2014-08-14 Do>
    [2014-08-13 Mi 11:34]
    [[file:~/Projekte/web-utils/js-utils.lisp::%3B%3B%20remove%20the%20active%20mark][file:~/Projekte/web-utils/js-utils.lisp::;; remove the active mark]]

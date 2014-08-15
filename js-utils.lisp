@@ -39,9 +39,27 @@
 (define-easy-handler (js-bootstrap-utils :uri "/scripts/utils-bootstrap.js") ()
   (setf (hunchentoot:content-type*) "text/javascript")
   (ps
+    (defun navbar-item-for-hash (hash navbar-items)
+      (@@ navbar-items
+          (filter (lambda (i item)
+                    (not (length=0
+                          (@@ ($ item) (find (concatenate 'string
+                                                          "a[href='" hash "']")))))))))
+
+    (defun links-with-any-hash ()
+      (@@ ($ "a[href]")
+          (filter (lambda (i l)
+                    (let ((href (@@ ($ l) (attr "href"))))
+                      (if (= "#" (@@ href (char-at 0)))
+                          true
+                          false))))))
+
     (bind-event document ready ()
-      (let ((navbar-items ($ ".navbar .navbar-nav li")))
-        (bind-event navbar-items click ()
+      (let ((navbar-items ($ ".navbar .navbar-nav li"))
+            (hash-links (links-with-any-hash)))
+        (bind-event hash-links click ()
           ;; remove the active mark
           (@@ navbar-items (remove-class "active"))
-          (@@ ($ this) (add-class "active")))))))
+          (@@ (navbar-item-for-hash (@@ ($ this) (attr "href"))
+                                    navbar-items)
+              (add-class "active")))))))

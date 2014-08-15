@@ -16,6 +16,7 @@
   `(html/document (:style "/~olaf/style.css"
                      :library :jquery
                      :library :bootstrap
+                     :script "/scripts/utils.js"
                      :script "/scripts/utils-bootstrap.js"
                      ,@parameters)
      ,@body))

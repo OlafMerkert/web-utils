@@ -49,7 +49,23 @@
                                  `(:ul :class "nav navbar-nav"
                                        ,(naventry (first navbar-links) nil)
                                        ,@(mapcar #'naventry (rest navbar-links))))
-                          ,@body)))))))
+                       ,@body)))))))
+
+(defun breadcrumbs (&rest breadcrumbs)
+  (html/node
+    (:ul :class "breadcrumb"
+       (:li (:a :href "/"
+               (:span :class "glyphicon glyphicon-home")
+               (:span :class "sr-only" "home")))
+       (dolist (brc (group breadcrumbs 2))
+         (dbind (br label) brc
+           (cond ((equal br "#")
+                  (cl-who:htm (:li :class "active" (:a :href br (cl-who:esc label)))))
+                 ((stringp br)
+                  (cl-who:htm (:li (:a :href br (cl-who:esc label)))))
+                 ((listp br)            ; a breadcrumb-list
+                  (cl-who:htm (:li (:a :href (breadcrumb->url br) (cl-who:esc label)))))))))))
+
 
 (defmacro navbar (title &rest navbar-links)
   `(navbar+ ,title ,navbar-links))

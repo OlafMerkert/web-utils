@@ -15,7 +15,7 @@
 (in-package :bootstrap-helpers)
 
 (defmacro html/document+bs (parameters &body body)
-  `(html/document (:style "/~olaf/style.css"
+  `(html/document (:style "/style/bootstrap-custom.css"
                      :library :jquery
                      :library :bootstrap
                      :script "/scripts/utils.js"
@@ -74,13 +74,8 @@
 
 (defmacro bs-body (&body body)
   `(htm (:div :class "container"
-              (:div :class "bs-body navbar-shift"
-                 ,@body))))
-
-(defmacro bs-body0 (&body body)
-  `(htm (:div :class "container"
               (:div :class "bs-body"
-                    ,@body))))
+                 ,@body))))
 
 (defmacro named-section* (title &body body)
   `(htm (:section (:a :name ,title)

@@ -8,7 +8,9 @@
    #:bs-body
    #:navbar+
    #:named-section*
-   #:html/document+bs))
+   #:html/document+bs
+   #:breadcrumbs
+   #:bs-body0))
 
 (in-package :bootstrap-helpers)
 
@@ -72,6 +74,11 @@
 
 (defmacro bs-body (&body body)
   `(htm (:div :class "container"
+              (:div :class "bs-body navbar-shift"
+                 ,@body))))
+
+(defmacro bs-body0 (&body body)
+  `(htm (:div :class "container"
               (:div :class "bs-body"
                     ,@body))))
 
@@ -90,7 +97,9 @@
               "/hunchentoot-doc.html" "Documentation")
       (bs-body
         (:h1 (esc server-name))
-        (:ul :class "list-unstyled" :style "margin-left: 4em"
+        (:ul :class "list-unstyled" :style (css-lite:inline-css
+                                            :margin-left "4em"
+                                            :margin-top "2em")
            (dolist (app available-applications)
              (unless (string-equal (first app) "Documentation")
                (htm (:li :style "margin-bottom: 4pt"

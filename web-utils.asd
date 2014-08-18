@@ -9,7 +9,8 @@
                parenscript
                cl-json
                zip
-               alexandria)
+               alexandria
+               css-lite)
   :serial t
   :components ((:file "packages")
                (:file "download-web-libraries")

@@ -14,6 +14,9 @@
 
 (in-package :bootstrap-helpers)
 
+(load-web-library :jquery)
+(load-web-library :bootstrap)
+
 (defmacro html/document+bs (parameters &body body)
   `(html/document (:style "/style/bootstrap-custom.css"
                      :library :jquery
@@ -103,3 +106,33 @@
                           (:span :class "glyphicon glyphicon-globe"
                              :style (css-lite:inline-css :margin-right "5pt"))
                           (esc (first app))))))))))))
+
+;;; finally, we provide the customisations for the bootstrap style
+(register-breadcrumb-dispatcher '(style "bootstrap-custom.css") 'homepage-css :dir-p nil :replace t)
+(register-breadcrumb-dispatcher '(style "bootstrap-nonav.css") 'homepage-css-nonav :dir-p nil :replace t)
+
+;; todo adjust the colours and fonts
+(defun homepage-css ()
+  (setf (hunchentoot:content-type*) "text/css")
+  (css-lite:css
+    (("body")
+     (:padding-top "50px"))
+    ((".bs-body")
+     (:padding "10px 15px"))
+    (("h1")
+     (:text-align "center"))
+    ((".bigger")
+     (:font-size "120%"))
+    ((".user-help," ".user-info")
+     (:padding "1ex"
+      :border-radius "5px"))
+    (("p.dropdown-menu") (:padding "5pt"
+                          :padding-left "10pt"))
+    (("table") (:font-size "110%"))
+    ))
+
+(defun homepage-css-nonav ()
+  (setf (hunchentoot:content-type*) "text/css")
+  (css-lite:css
+    (("body")
+     (:padding-top "0px"))))

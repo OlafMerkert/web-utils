@@ -42,7 +42,7 @@
     ;; todo handle case of no nav entries specially
     (let ((navbar-links (group navbar-links 2)))
       `(htm
-        (:div :class "navbar navbar-default navbar-fixed-top" :role "navigation"
+        (:div :class "navbar navbar-default" :role "navigation"
               (:div :class "container"
                     (:div :class "navbar-header"
                           (:button :type "button" :class "navbar-toggle collapsed" :data-toggle "collapse" :data-target ".navbar-collapse"
@@ -89,22 +89,20 @@
 ;;; boostrap styled version
 (defun web-utils::show-available-applications ()
   (let ((server-name (format nil "~:(~A~)'s hunchentoot instance"
-                             (sb-unix:uid-username (sb-unix:unix-getuid)))))
+                             #+sbcl (sb-unix:uid-username (sb-unix:unix-getuid))
+                             #-sbcl "somebody")))
     (html/document+bs (:title server-name)
       (navbar server-name
               "/hunchentoot-doc.html" "Documentation")
       (bs-body
         (:h1 (esc server-name))
-        (:ul :class "list-unstyled" :style (css-lite:inline-css
-                                            :margin-left "4em"
-                                            :margin-top "2em")
+        (:ul :class "list-unstyled available-applications"
            (dolist (app available-applications)
              (unless (string-equal (first app) "Documentation")
-               (htm (:li :style "margin-bottom: 4pt"
+               (htm (:li
                        (:a :href (second app)
                           :class "btn btn-default"
-                          (:span :class "glyphicon glyphicon-globe"
-                             :style (css-lite:inline-css :margin-right "5pt"))
+                          (:span :class "glyphicon glyphicon-globe icon-space-right")
                           (esc (first app))))))))))))
 
 ;;; finally, we provide the customisations for the bootstrap style
@@ -114,25 +112,29 @@
 ;; todo adjust the colours and fonts
 (defun homepage-css ()
   (setf (hunchentoot:content-type*) "text/css")
-  (css-lite:css
-    (("body")
-     (:padding-top "50px"))
-    ((".bs-body")
-     (:padding "10px 15px"))
-    (("h1")
-     (:text-align "center"))
-    ((".bigger")
-     (:font-size "120%"))
-    ((".user-help," ".user-info")
-     (:padding "1ex"
-      :border-radius "5px"))
-    (("p.dropdown-menu") (:padding "5pt"
-                          :padding-left "10pt"))
-    (("table") (:font-size "110%"))
-    ))
+  (lass:compile-and-write
+   '(body :padding-top "0px")
+   '(.navbar :margin-bottom "0px")
+   '(.bs-body :padding "10px 15px")
+   '(h1 :text-align "center")
+   '(.bigger :font-size "120%")
+   '((:or .user-help .user-info)
+     :padding "1ex"
+     :border-radius "5px")
+   '(p.dropdown-menu :padding "5pt"
+     :padding-left "10pt")
+   '(table :font-size "110%")
+   '(.icon-space-right :margin-right "5pt")
+   '(.icon-space-left :margin-left "5pt")
+   '(.medskip-after :margin-bottom "1em")
+   '(.available-applications
+     :margin-left "4em"
+     :margin-top "2em"
+     (li :margin-bottom "4pt"))
+   '(.statistics-table  :font-size "80%" :width "auto" :margin-top "1em")
+   '(.two-digit-num-input :width "4em")))
 
 (defun homepage-css-nonav ()
   (setf (hunchentoot:content-type*) "text/css")
-  (css-lite:css
-    (("body")
-     (:padding-top "0px"))))
+  (lass:compile-and-write
+   '(body :padding-top "0px")))

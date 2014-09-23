@@ -10,7 +10,9 @@
                cl-json
                zip
                alexandria
-               css-lite)
+               lass
+               css-lite ; keep it for inline-css !
+               ) 
   :serial t
   :components ((:file "packages")
                (:file "download-web-libraries")

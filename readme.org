@@ -5,7 +5,11 @@ different helper function and utilities that are useful for many sorts of websit
 + [[http://weitz.de/cl-who/][cl-who]]
 + [[http://common-lisp.net/project/parenscript/][parenscript]]
 + [[http://getbootstrap.com/][bootstrap]]
-* Tasks
+* Tasks [4/6]
+** TODO see if we can get a nicer error template 
+   [2014-04-27 So 12:37]
+   [[file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun%20error-code%20(&optional%20(code%20hunchentoot:%2BHTTP-NOT-FOUND%2B))][file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun error-code (&optional (code hunchentoot:+HTTP-NOT-FOUND+))]]
+
 ** DONE replace navbar-inverse
    SCHEDULED: <2014-08-11 Mo>
    [2014-08-11 Mo 08:38]
@@ -19,12 +23,13 @@ different helper function and utilities that are useful for many sorts of websit
    SCHEDULED: <2014-08-13 Mi>
    [2014-08-12 Di 07:59]
    [[file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun%20show-available-applications%20()][file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun show-available-applications ()]]
-*** TODO perhaps remove the documentation link?
+*** DONE perhaps remove the documentation link?
 or just list it in a different way?
 ** DONE we actually need to handle all # links on the page
    SCHEDULED: <2014-08-14 Do>
    [2014-08-13 Mi 11:34]
    [[file:~/Projekte/web-utils/js-utils.lisp::%3B%3B%20remove%20the%20active%20mark][file:~/Projekte/web-utils/js-utils.lisp::;; remove the active mark]]
+** TODO use scroll state of the page to highlight navbar items
 ** TODO move styling into a CSS file
    [2014-08-13 Mi 17:47]
    [[file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:ul%20:class%20"list-unstyled"%20:style%20"margin-left:%204em"][file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:ul :class "list-unstyled" :style "margin-left: 4em"]]

@@ -112,9 +112,17 @@
 ;; todo adjust the colours and fonts
 (defun homepage-css ()
   (setf (hunchentoot:content-type*) "text/css")
+  #|((background "c6e9af")
+   (secondary-background "ccffaa")
+   (foreground "338000")
+   (border "aade87")
+   (highlight "bfe8a4")
+   (info "3771c8")
+   (error "c6e9af"))|#
   (lass:compile-and-write
-   '(body :padding-top "0px")
-   '(.navbar :margin-bottom "0px")
+   `(body :padding-top "0px"
+          :font-family "'Bitstream Charter' serif")
+   `(.navbar :margin-bottom "0px")
    '(.bs-body :padding "10px 15px")
    '(h1 :text-align "center")
    '(.bigger :font-size "120%")

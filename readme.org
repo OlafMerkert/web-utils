@@ -5,7 +5,7 @@ different helper function and utilities that are useful for many sorts of websit
 + [[http://weitz.de/cl-who/][cl-who]]
 + [[http://common-lisp.net/project/parenscript/][parenscript]]
 + [[http://getbootstrap.com/][bootstrap]]
-* Tasks [4/6]
+* Tasks [4/8]
 ** TODO see if we can get a nicer error template 
    [2014-04-27 So 12:37]
    [[file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun%20error-code%20(&optional%20(code%20hunchentoot:%2BHTTP-NOT-FOUND%2B))][file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun error-code (&optional (code hunchentoot:+HTTP-NOT-FOUND+))]]
@@ -33,3 +33,5 @@ or just list it in a different way?
 ** TODO move styling into a CSS file
    [2014-08-13 Mi 17:47]
    [[file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:ul%20:class%20"list-unstyled"%20:style%20"margin-left:%204em"][file:~/Projekte/web-utils/bootstrap-helpers.lisp::(:ul :class "list-unstyled" :style "margin-left: 4em"]]
+** TODO support for breadcrumbs in =register-web-application=
+   [[file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun%20register-web-application%20(name%20root-url)][file:~/Projekte/web-utils/hunchentoot-helpers.lisp::(defun register-web-application (name root-url)]]

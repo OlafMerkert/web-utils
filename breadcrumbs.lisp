@@ -65,11 +65,16 @@
        (concatenate 'string #1=(pathname-name pathname) "." it)
        #1#))
 
-(defmethod register-breadcrumb-dispatcher (breadcrumb (file pathname) &key replace (add-filename t))
+(defmethod register-breadcrumb-dispatcher (breadcrumb (file pathname)
+                                           &key replace (add-filename t)
+                                                (if-not-exists :silent))
   (let ((breadcrumb (if add-filename (append1 breadcrumb
                                               (filename file))
                         breadcrumb)))
-    (register-breadcrumb-dispatcher%
-     breadcrumb
-     (hunchentoot:create-static-file-dispatcher-and-handler (breadcrumb->url breadcrumb) file)
-     :replace replace)))
+    (cond ((uiop/filesystem:file-exists-p file)
+           (register-breadcrumb-dispatcher%
+            breadcrumb
+            (hunchentoot:create-static-file-dispatcher-and-handler (breadcrumb->url breadcrumb) file)
+            :replace replace))
+          ((eq if-not-exists :error)
+           (error "File not found: ~A" file)))))

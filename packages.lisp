@@ -42,4 +42,5 @@
    #:ht-debug-settings
    #:web-library-include
    #:@
-   #:available-applications))
+   #:available-applications
+   #:*current-web-server*))

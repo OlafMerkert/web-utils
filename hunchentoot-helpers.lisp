@@ -21,6 +21,7 @@
                  hunchentoot:*dispatch-table*))
          (setf *current-web-server*
                (make-instance 'hunchentoot:easy-acceptor
+                              ;;'hunchentoot-logging:easy-acceptor/db-log
                               :port (if production 80 port)))))))
 
 (defun stop-server ()
@@ -36,8 +37,6 @@
         hunchentoot:*dispatch-table*)
   (when more-uri-paths
     (apply #'setup-static-content more-uri-paths)))
-
-(defparameter web-library-path #P"/var/tmp/web-libraries/")
 
 (defvar available-applications
   '(("Documentation" "/hunchentoot-doc.html")))

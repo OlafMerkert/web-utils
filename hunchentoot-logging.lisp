@@ -1,8 +1,24 @@
 (defpackage :hunchentoot-logging
   (:nicknames :ht-log)
-  (:use :cl :ol :hunchentoot :clsql)
+  (:use :cl :ol :hunchentoot :clsql
+        :clsql-helpers)
   (:export
-   #:easy-acceptor/db-log))
+   #:easy-acceptor/db-log
+   #:CONNECT-HTTP-LOG
+   #:http-log
+   #:logid
+   #:remote-addr
+   #:x-forwarded-for
+   #:authorization
+   #:time
+   #:request-method
+   #:script-name
+   #:query-string
+   #:server-protocol
+   #:return-code
+   #:content-length
+   #:referer
+   #:user-agent))
 
 (in-package :hunchentoot-logging)
 
@@ -37,6 +53,7 @@
              "<id ~A> ~:[-~@[ (~A)~]~;~:*~A~@[ (~A)~]~] ~:[-~;~:*~A~] [~A] \"~A ~A~@[?~A~] ~
                     ~A\" ~D ~:[-~;~:*~D~] \"~:[-~;~:*~A~]\" \"~:[-~;~:*~A~]\""
              . #1#)))
+  ;; always return object for `print-object'
   http-log)
 
 (defmethod acceptor-log-access ((acceptor easy-acceptor/db-log) &key return-code)
@@ -58,22 +75,10 @@
                         )))
     (update-records-from-instance log-entry :database *http-log-db*)))
 
-(defpar *http-log-db-path* "/home/olaf/tmp/hunchentoot.log.sqlite")
+(defpar *http-log-db-path* (format nil "~A" (merge-pathnames "logs/hunchentoot.log.sqlite"
+                                  (user-homedir-pathname))))
 
-(defvar *http-log-db* nil)
+(define-sqlite3-database http-log *http-log-db-path*
+  :sequences '(logid)
+  :tables '((http-log time script-name)))
 
-(defun connect-http-log-db ()
-  (setf *http-log-db* (connect (list *http-log-db-path*)
-                               :database-type :sqlite3))
-  (execute-command "PRAGMA synchronous=OFF" :database *http-log-db*)
-  (setf *default-caching* nil))
-
-(defun setup-http-log-db ()
-  (unless (sequence-exists-p 'logid)
-    (create-sequence 'logid))
-  (unless (table-exists-p 'http-log)
-    (create-view-from-class 'http-log))
-  (unless (index-exists-p [time-index])
-    (create-index [time-index] :on [http-log] :attributes '([time])))
-  (unless (index-exists-p [script-name-index])
-    (create-index [script-name-index] :on [http-log] :attributes '([script-name]))))

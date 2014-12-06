@@ -64,10 +64,10 @@
                         :x-forwarded-for (header-in* :x-forwarded-for)
                         :authorization   (authorization)
                         :time            (get-universal-time)
-                        :request-method  (request-method*)
+                        :request-method  (mkstr (request-method*))
                         :script-name     (script-name*)
                         :query-string    (query-string*)
-                        :server-protocol (server-protocol*)
+                        :server-protocol (mkstr (server-protocol*))
                         :return-code     return-code
                         :content-length  (content-length*)
                         :referer         (referer)
@@ -81,4 +81,3 @@
 (define-sqlite3-database http-log *http-log-db-path*
   :sequences '(logid)
   :tables '((http-log time script-name)))
-

@@ -8,20 +8,22 @@
         hunchentoot:*show-lisp-backtraces-p* (not production)))
 
 (defun start-server (&optional production (port 8080))
+  (when production
+    (hunchentoot-logging:connect-http-log))
   (hunchentoot:start
    (or *current-web-server*
        (progn
-         (unless production
-           ;; provide the list of available applications
-           (push (hunchentoot:create-regex-dispatcher
-                  "^/$" 'show-available-applications)
-                 hunchentoot:*dispatch-table*)
-           (push (hunchentoot:create-regex-dispatcher
-                  "^$" 'show-available-applications)
-                 hunchentoot:*dispatch-table*))
+         ;; provide the list of available applications
+         (push (hunchentoot:create-regex-dispatcher
+                "^/$" 'show-available-applications)
+               hunchentoot:*dispatch-table*)
+         (push (hunchentoot:create-regex-dispatcher
+                "^$" 'show-available-applications)
+               hunchentoot:*dispatch-table*)
          (setf *current-web-server*
-               (make-instance 'hunchentoot:easy-acceptor
-                              ;;'hunchentoot-logging:easy-acceptor/db-log
+               (make-instance (if production
+                                  'hunchentoot-logging:easy-acceptor/db-log
+                                  'hunchentoot:easy-acceptor)
                               :port (if production 80 port)))))))
 
 (defun stop-server ()

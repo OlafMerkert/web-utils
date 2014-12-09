@@ -80,4 +80,4 @@
 
 (define-sqlite3-database http-log *http-log-db-path*
   :sequences '(logid)
-  :tables '((http-log time script-name)))
+  :tables '(http-log)) ; no indexes for now

@@ -105,13 +105,21 @@ the `url' terminates in a slash, return an empty string."
                   (+ 1 it) 0)))
     (subseq string pos)))
 
-(defmethod load-web-library ((name (eql :bootstrap)) &key (version "3.2.0"))
+(defmethod load-web-library ((name (eql :bootstrap)) &key (local t) (version "3.3.1"))
   (unless (gethash :bootstrap loaded-web-libraries)
-   (let ((archive-url (format nil "https://github.com/twbs/bootstrap/releases/download/v~A/bootstrap-~A-dist.zip" version version)))
-     (download-and-serve/archive archive-url "/bootstrap/")
-     (setf (gethash :bootstrap loaded-web-libraries) t))))
+    (let ((bootstrap-dir #P "/home/olaf/src/bootstrap/dist/"))
+      (if (and (eq version :local)
+               (uiop/filesystem:probe-file* bootstrap-dir))
+          ;; use a local copy of bootstrap
+          (progn
+            (download-and-serve/directory bootstrap-dir "/bootstrap/")
+            (setf (gethash :bootstrap loaded-web-libraries) t))
+          ;; download from the internet
+          (let ((archive-url (format nil "https://github.com/twbs/bootstrap/releases/download/v~A/bootstrap-~A-dist.zip" version version)))
+            (download-and-serve/archive archive-url "/bootstrap/")
+            (setf (gethash :bootstrap loaded-web-libraries) t))))))
 
-(defmethod web-library-include ((name (eql :bootstrap)) &key (version "3.2.0"))
+(defmethod web-library-include ((name (eql :bootstrap)) &key version)
   (declare (ignore version))
   (list :style "/bootstrap/css/bootstrap.css"
         :style "/bootstrap/css/bootstrap-theme.css"
@@ -141,5 +149,9 @@ the `url' terminates in a slash, return an empty string."
                     (setup-static-content local-url local-file)
                     local-url))))
             local-files)))
+
+(defun download-and-serve/directory (directory-path local-prefix)
+  (push (hunchentoot:create-folder-dispatcher-and-handler local-prefix directory-path)
+        hunchentoot:*dispatch-table*))
 
 ;; todo jquery ui

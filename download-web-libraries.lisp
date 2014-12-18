@@ -113,7 +113,7 @@ the `url' terminates in a slash, return an empty string."
 (defmethod load-web-library ((name (eql :bootstrap)) &key (local t) (version "3.3.1"))
   (unless (gethash :bootstrap loaded-web-libraries)
     (let ((bootstrap-dir #P "/home/olaf/src/bootstrap/dist/"))
-      (if (and (eq version :local)
+      (if (and local
                (uiop/filesystem:probe-file* bootstrap-dir))
           ;; use a local copy of bootstrap
           (progn

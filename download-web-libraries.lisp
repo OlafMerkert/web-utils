@@ -61,6 +61,11 @@
   (:remote-prefix "http://raw2.github.com/OlafMerkert/Sticky/master/")
   (:local-prefix "/scripts/sticky/"))
 
+(define-web-library :jquery-cookie
+  (:files "jquery.cookie.js")
+  (:remote-prefix "https://raw.githubusercontent.com/carhartl/jquery-cookie/master/src/")
+  (:local-prefix "/scripts/"))
+
 ;; todo dependencies between web libraries?
 
 (defun download-and-serve (files remote-prefix local-prefix)

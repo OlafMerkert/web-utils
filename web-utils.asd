@@ -27,5 +27,6 @@
                (:file "scrape-utils")
                (:file "parenscript-helpers")
                (:file "js-utils")
-               (:file "bootstrap-helpers")))
+               (:file "bootstrap-helpers")
+               (:file "web-authentification")))
 

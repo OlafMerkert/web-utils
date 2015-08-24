@@ -47,7 +47,7 @@
   (mapcan 'web-library-include list))
 
 (define-web-library :jquery
-    (:params (version "1.11.1"))
+    (:params (version "1.11.3"))
   (:files ;; "jquery-~A.min.js"
           "jquery-~A.js"
           "jquery-~A.min.map")
@@ -64,6 +64,19 @@
 (define-web-library :jquery-cookie
   (:files "jquery.cookie.js")
   (:remote-prefix "https://raw.githubusercontent.com/carhartl/jquery-cookie/master/src/")
+  (:local-prefix "/scripts/"))
+
+(define-web-library :raphaeljs
+  (:files ;;"raphael.js"
+          "raphael-min.js")
+  (:remote-prefix "http://github.com/DmitryBaranovskiy/raphael/raw/master/")
+  (:local-prefix "/scripts/"))
+
+(define-web-library :numeric
+    (:params (version "1.2.6"))
+  (:files ;; "numeric-~A.js"
+          "numeric-~A.min.js")
+  (:remote-prefix "http://numericjs.com/lib/")
   (:local-prefix "/scripts/"))
 
 ;; todo dependencies between web libraries?

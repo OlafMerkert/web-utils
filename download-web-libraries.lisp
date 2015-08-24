@@ -35,6 +35,12 @@
 (defgeneric load-web-library (name &key))
 (defmethod load-web-library ((name (eql nil)) &key))
 
+(defun reload-web-library (name &rest args)
+  "Helper function for updating web-libraries to new versions, or
+fixing corrupt downloads."
+  (setf (gethash name loaded-web-libraries) nil)
+  (apply #'load-web-library name args))
+
 ;; automate using web libraries in sites (at least css and js parts)
 (defgeneric web-library-include (name &key))
 (defmethod web-library-include ((name (eql nil)) &key))

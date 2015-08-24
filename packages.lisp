@@ -43,4 +43,5 @@
    #:web-library-include
    #:@
    #:available-applications
-   #:*current-web-server*))
+   #:*current-web-server*
+   #:reload-web-library))

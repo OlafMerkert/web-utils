@@ -4,9 +4,7 @@
   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
 
 (defparameter xhtml-prologue
-  (concatenate
-   'string xml-prologue
-   "<!DOCTYPE html>"))
+  (format nil "~A~%<!DOCTYPE html>~%" xml-prologue))
 
 (setf *prologue* xml-prologue
       cl-who::*html-empty-tag-aware-p* t)
@@ -34,7 +32,8 @@
                           &body body)
   `(,(if stream
          'with-html-output
-         'with-html-output-to-string) (xml-output-stream ,stream :prologue xhtml-prologue)
+         'with-html-output-to-string) (xml-output-stream ,stream
+                                                         :prologue (write-string xhtml-prologue xml-output-stream))
      (:html :lang ,lang
         (:head
            (:meta :http-equiv "Content-Type" :content "text/html;charset=utf-8")

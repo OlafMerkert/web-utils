@@ -59,7 +59,7 @@
      ,@body))
 
 (defmacro xml/document ((&key) &body body)
-  `(with-html-output-to-string (xml-output-stream nil :prologue xml-prologue)
+  `(with-html-output-to-string (xml-output-stream nil :prologue (write-string xml-prologue xml-output-stream))
      ,@body))
 
 (defmacro xml/node (&body body)

@@ -90,10 +90,12 @@
         (aref registers 0)
         string)))
 
-(defun parse-url->breadcrumb (string)
+(defun parse-url->breadcrumb (string &optional remove-ending)
   "Transform an absolute url (without server, so for instance the
 scriptname) to a breadcrumb, ignoring the file ending in the last
 part."
-  (rest (split-sequence:split-sequence #\/
-                        (remove-file-ending (url-decode string))
-                        :remove-empty-subseqs t)))
+  (split-sequence:split-sequence #\/
+                                 (if remove-ending
+                                     (remove-file-ending (url-decode string))
+                                     (url-decode string))
+                                 :remove-empty-subseqs t))

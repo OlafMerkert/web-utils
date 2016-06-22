@@ -45,4 +45,5 @@
    #:available-applications
    #:*current-web-server*
    #:parse-url->breadcrumb
-   #:remove-file-ending))
+   #:remove-file-ending
+   #:register-breadcrumb-dispatcher%))

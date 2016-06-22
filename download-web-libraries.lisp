@@ -53,7 +53,7 @@ fixing corrupt downloads."
   (mapcan 'web-library-include list))
 
 (define-web-library :jquery
-    (:params (version "1.11.3"))
+    (:params (version "3.0.0"))
   (:files ;; "jquery-~A.min.js"
           "jquery-~A.js"
           "jquery-~A.min.map")

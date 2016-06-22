@@ -15,6 +15,7 @@
                clsql
                clsql-sqlite3
                ol-sql-utils
+               split-sequence
                ) 
   :serial t
   :components ((:file "packages")

@@ -78,3 +78,22 @@
             :replace replace))
           ((eq if-not-exists :error)
            (error "File not found: ~A" file)))))
+
+(declaim (inline remove-file-ending parse-url->breadcrumb))
+(defun remove-file-ending (string &optional (max-length 4))
+  (mvbind (match registers)
+      (cl-ppcre:scan-to-strings
+       `(:sequence (:register (:greedy-repetition 0 nil :everything))
+                   "." (:greedy-repetition 1 ,max-length :word-char-class))
+       string)
+    (if match
+        (aref registers 0)
+        string)))
+
+(defun parse-url->breadcrumb (string)
+  "Transform an absolute url (without server, so for instance the
+scriptname) to a breadcrumb, ignoring the file ending in the last
+part."
+  (rest (split-sequence:split-sequence #\/
+                        (remove-file-ending (url-decode string))
+                        :remove-empty-subseqs t)))

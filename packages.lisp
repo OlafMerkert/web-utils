@@ -43,4 +43,6 @@
    #:web-library-include
    #:@
    #:available-applications
-   #:*current-web-server*))
+   #:*current-web-server*
+   #:parse-url->breadcrumb
+   #:remove-file-ending))

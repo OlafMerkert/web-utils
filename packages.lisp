@@ -46,4 +46,6 @@
    #:*current-web-server*
    #:parse-url->breadcrumb
    #:remove-file-ending
-   #:register-breadcrumb-dispatcher%))
+   #:register-breadcrumb-dispatcher%
+   #:reload-web-library))
+

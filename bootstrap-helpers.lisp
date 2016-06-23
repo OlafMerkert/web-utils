@@ -121,7 +121,8 @@
    (error "c6e9af"))|#
   (lass:compile-and-write
    `(body :padding-top "0px"
-          :font-family "Gentium, Georgia, serif")
+          ;; :font-family "Gentium, Georgia, serif"
+          )
    `(.navbar :margin-bottom "0px")
    '(.bs-body :padding "10px 15px")
    '(h1 :text-align "center")
